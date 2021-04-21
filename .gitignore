@@ -1,4 +1,5 @@
 target
+.idea
 .project
 Cargo.lock
 # macOS hidden files

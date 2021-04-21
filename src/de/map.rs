@@ -65,6 +65,7 @@ impl<'a, 'de, R: BufRead> de::MapAccess<'de> for MapAccess<'a, R> {
         if let Some((key, value)) = attr_key_val {
             // try getting map from attributes (key= "value")
             self.value = MapValue::Attribute { value };
+            let key = key.iter().enumerate().find(|&(_, &b)| b == b':').map(|(i, _)| key[i + 1..].to_vec()).unwrap_or_else(|| key);
             seed.deserialize(EscapedDeserializer::new(key, decoder, false))
                 .map(Some)
         } else {
